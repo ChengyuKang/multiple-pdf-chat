@@ -1,5 +1,5 @@
 import streamlit as st
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -9,6 +9,12 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css, bot_template, user_template
 import os
+
+try:
+    from dotenv import load_dotenv
+    DOTENV_AVAILABLE = True
+except ModuleNotFoundError:
+    DOTENV_AVAILABLE = False
 
 if os.path.exists(".env"):
     load_dotenv()
