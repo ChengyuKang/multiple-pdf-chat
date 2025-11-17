@@ -1,5 +1,5 @@
 import streamlit as st
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -10,36 +10,36 @@ from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css, bot_template, user_template
 import os
 
-try:
-    from dotenv import load_dotenv
-    DOTENV_AVAILABLE = True
-except ModuleNotFoundError:
-    DOTENV_AVAILABLE = False
+# try:
+#     from dotenv import load_dotenv
+#     DOTENV_AVAILABLE = True
+# except ModuleNotFoundError:
+#     DOTENV_AVAILABLE = False
 
-if os.path.exists(".env"):
-    load_dotenv()
-    print("✅ Loaded .env file")
+# if os.path.exists(".env"):
+#     load_dotenv()
+#     print("✅ Loaded .env file")
 
-# --- 2. Load Streamlit secrets safely ---
-openai_api_key = os.getenv("OPENAI_API_KEY")  # default from .env
+# # --- 2. Load Streamlit secrets safely ---
+# openai_api_key = os.getenv("OPENAI_API_KEY")  # default from .env
 
-try:
-    # Only read st.secrets if it actually contains something
-    if hasattr(st, "secrets") and st.secrets._secrets:  
-        if "OPENAI_API_KEY" in st.secrets:
-            openai_api_key = st.secrets["OPENAI_API_KEY"]
-            print("✅ Loaded Streamlit secrets")
-except Exception:
-    # No secrets.toml → silently skip
-    pass
+# try:
+#     # Only read st.secrets if it actually contains something
+#     if hasattr(st, "secrets") and st.secrets._secrets:  
+#         if "OPENAI_API_KEY" in st.secrets:
+#             openai_api_key = st.secrets["OPENAI_API_KEY"]
+#             print("✅ Loaded Streamlit secrets")
+# except Exception:
+#     # No secrets.toml → silently skip
+#     pass
 
-# --- 3. Validate API Key ---
-if not openai_api_key:
-    st.error("❌ No OPENAI_API_KEY found.\nPlease set it in `.env` (local) or `secrets.toml` (deploy).")
-    st.stop()
+# # --- 3. Validate API Key ---
+# if not openai_api_key:
+#     st.error("❌ No OPENAI_API_KEY found.\nPlease set it in `.env` (local) or `secrets.toml` (deploy).")
+#     st.stop()
 
-# Set env
-os.environ["OPENAI_API_KEY"] = openai_api_key
+# # Set env
+# os.environ["OPENAI_API_KEY"] = openai_api_key
 
 
 def get_pdf_text(pdf_docs):
@@ -86,6 +86,7 @@ def handle_userinput(user_question):
 
 # main function
 def main():
+    load_dotenv()
     st.set_page_config(page_title="chat with multiple PDFs", page_icon=":books:")
     
     st.write(css, unsafe_allow_html=True)
